@@ -1,0 +1,28 @@
+a.link {
+	color: #fff;
+	text-decoration: none;
+	transition: 0.3s background-color ease-in-out;
+
+	&.current-page {
+		/* TODO */
+		border-radius: 12px;
+		background-color: #9c27b0;
+		padding: 0.75rem 1.25rem;
+	}
+
+	&:not(.current-page)::before {
+		content: "";
+		position: absolute;
+		width: 0;
+		height: 1px;
+		background-color: currentColor;
+		top: calc(100% + 1px);
+		left: 0;
+		transition: 0.3s width ease-in-out;
+	}
+
+	&:hover::before,
+	&:focus::before {
+		width: 100%;
+	}
+}
