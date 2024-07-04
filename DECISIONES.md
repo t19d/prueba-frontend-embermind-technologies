@@ -1,0 +1,16 @@
+# Decisiones
+
+## Estructura de proyecto
+
+> [Store project files outside of app](https://nextjs.org/docs/app/building-your-application/routing/colocation#store-project-files-outside-of-app)
+
+Utilizar una estructura donde los directorios están fuera de /app por dos motivos:
+
+-   Usar /app como directorio exclusivo para las rutas
+-   Hacer uso de la [estructura recomendada de Redux + APP Router Next.js](https://redux-toolkit.js.org/usage/nextjs#folder-structure)
+
+## Librería de componentes
+
+> [MUI](https://mui.com/)
+
+Es una librería que ya he utilizado, es bastante popular y fácil de usar.
