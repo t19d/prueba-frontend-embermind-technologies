@@ -1,8 +1,8 @@
 import { UrlMoviesParams } from "@/models/filter.model";
 import { PaginatedMoviesResponse } from "@/models/movie.model";
 
-const API_URL = process.env.TMDB_API_URL;
-const API_KEY = process.env.TMDB_API_KEY;
+const API_URL = process.env.NEXT_PUBLIC_TMDB_API_URL;
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
 export async function fetchListMovies(opts: UrlMoviesParams) {
 	const url = opts.query ? getUrlListSearch(opts) : getUrlListPopular(opts);
@@ -16,7 +16,22 @@ export async function fetchListMovies(opts: UrlMoviesParams) {
 	return data;
 }
 
+export async function createGuestSession() {
+	const response = await fetch(getUrlGestSession());
+
+	// ❌
+	if (!response.ok) throw new Error("🩺 Failed to create guest session");
+
+	// ✅
+	const data = await response.json();
+	return data;
+}
+
 // #region utils URL MOVIES
+function getUrlGestSession(): string {
+	return `${API_URL}/authentication/guest_session/new?api_key=${API_KEY}`;
+}
+
 function getUrlListPopular(opts: UrlMoviesParams): string {
 	return getUrlWithParams(`${API_URL}/movie/popular`, opts);
 }
