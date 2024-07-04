@@ -1,4 +1,4 @@
-import ListMovies from "@/components/movies/MovieList/MovieList";
+import MovieList from "@/components/movies/MovieList/MovieList";
 import { fetchListMovies } from "@/features/tmdbApi";
 import { PaginatedMoviesResponse } from "@/models/movie.model";
 import { redirect } from "next/navigation";
@@ -46,7 +46,7 @@ export default async function Home({ searchParams }: { searchParams: { [key: str
 
 	return (
 		<section>
-			<ListMovies {...data} />
+			<MovieList {...data} />
 		</section>
 	);
 }
