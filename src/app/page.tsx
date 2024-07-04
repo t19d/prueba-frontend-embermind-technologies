@@ -1,5 +1,5 @@
 import MovieList from "@/components/movies/MovieList/MovieList";
-import { fetchListMovies } from "@/features/tmdbApi";
+import { fetchListMovies } from "@/features/movies/tmdbApi";
 import { PaginatedMoviesResponse } from "@/models/movie.model";
 import { redirect } from "next/navigation";
 
