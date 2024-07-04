@@ -14,3 +14,6 @@ Utilizar una estructura donde los directorios están fuera de /app por dos motiv
 > [MUI](https://mui.com/)
 
 Es una librería que ya he utilizado, es bastante popular y fácil de usar.
+
+## Endpoints
+- En la descripción de la prueba estaba mal el de la lista de películas populares. Busqué en la documentación oficial y puse el correcta.
