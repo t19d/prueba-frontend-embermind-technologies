@@ -1,6 +1,7 @@
-import ListMovies from "@/components/movies/ListMovies/ListMovies";
+import ListMovies from "@/components/movies/MovieList/MovieList";
 import { fetchListMovies } from "@/features/tmdbApi";
 import { PaginatedMoviesResponse } from "@/models/movie.model";
+import { redirect } from "next/navigation";
 
 export default async function Home({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
 	const query = (searchParams?.query as string) ?? "";
@@ -8,7 +9,7 @@ export default async function Home({ searchParams }: { searchParams: { [key: str
 	// Convertir a número
 	searchParamPage = Number(searchParamPage);
 
-	const getPopularMovies = async (searchParamPage: number, query: string): Promise<PaginatedMoviesResponse> => {
+	const getPopularMovies = async (searchParamPage: number, query: string, canTryAgain: boolean = true): Promise<PaginatedMoviesResponse> => {
 		let data: PaginatedMoviesResponse = {
 			results: [],
 			page: 1,
@@ -21,15 +22,6 @@ export default async function Home({ searchParams }: { searchParams: { [key: str
 				page: searchParamPage,
 				query,
 			});
-
-			// Si no hay resultados, llamar a la API con la última página
-			if (!data.results || data.results.length === 0) {
-				// Llamar a la API
-				data = await fetchListMovies({
-					page: searchParamPage,
-					query,
-				});
-			}
 		} catch (error) {
 			console.error(error);
 		}
@@ -39,6 +31,18 @@ export default async function Home({ searchParams }: { searchParams: { [key: str
 
 	// Llamar a la API
 	let data = await getPopularMovies(searchParamPage, query);
+
+	// Si no hay resultados, redirigir con la última página
+	if (!data.results || data.results.length === 0) {
+		const newSearchParams: Record<string, string> = { page: `${data.total_pages}` };
+		if (query) newSearchParams.query = query;
+
+		// Añadir al query params la page
+		const params = new URLSearchParams(newSearchParams);
+
+		// Actualizar la URL con la nueva página
+		redirect(`/?${params.toString()}`);
+	}
 
 	return (
 		<section>

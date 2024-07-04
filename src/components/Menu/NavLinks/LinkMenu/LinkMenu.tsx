@@ -14,8 +14,14 @@ export default function LinkMenu({ text, href }: LinkMenuProps) {
 	if (isCurrentPage) className += " current-page";
 
 	return (
-		<Link href={href ?? "#"} className={className}>
-			<span>{text}</span>
-		</Link>
+		isCurrentPage ? (
+			<div className="link current-page">
+				<span>{text}</span>
+			</div>
+		) : (
+			<Link href={href ?? "#"} className="link">
+				<span>{text}</span>
+			</Link>
+		)
 	);
 }
