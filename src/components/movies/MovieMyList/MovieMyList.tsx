@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import MovieCard from "@/components/movies/MovieCard/MovieCard";
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { MovieListItem, PaginatedMoviesResponse } from "@/models/movie.model";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { loadLocalStorageGuestSession } from "@/utils/localStorage";
 import { fetchGuestListMovies } from "@/features/movies/tmdbApi";
+import MovieCard from "@/components/movies/MovieCard/MovieCard";
 import Pagination from "@/components/common/Pagination/Pagination";
+import Loading from "@/components/common/Loading/Loading";
 
 export default function MovieMyList() {
 	const guestSession = useAppSelector((state) => state.session);
@@ -52,10 +53,7 @@ export default function MovieMyList() {
 					<Pagination currentPage={data.page} totalPages={data.total_pages} />
 				</>
 			) : (
-				// TODO: Crear componente loading
-				<Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-					<CircularProgress />
-				</Box>
+				<Loading />
 			)}
 		</>
 	);

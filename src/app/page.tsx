@@ -1,3 +1,4 @@
+import Loading from "@/components/common/Loading/Loading";
 import MovieList from "@/components/movies/MovieList/MovieList";
 import { fetchListMovies } from "@/features/movies/tmdbApi";
 import { PaginatedMoviesResponse } from "@/models/movie.model";
@@ -46,18 +47,11 @@ export default async function Home({ searchParams }: { searchParams: { [key: str
 		redirect(`/?${params.toString()}`);
 	}
 
-	// TODO: Mejorar
 	return (
-		<Suspense
-			fallback={
-				<Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-					<CircularProgress />
-				</Box>
-			}
-		>
-			<section>
+		<section>
+			<Suspense fallback={<Loading />}>
 				<MovieList data={data} />
-			</section>
-		</Suspense>
+			</Suspense>
+		</section>
 	);
 }

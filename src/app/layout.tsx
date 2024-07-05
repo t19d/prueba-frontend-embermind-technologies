@@ -4,6 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@/theme/theme";
 import Menu from "@/components/Menu/Menu";
+import "./globals.css";
 
 export const metadata: Metadata = {
 	title: "Prueba técnica - David Tojo",

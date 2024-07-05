@@ -1,23 +1,16 @@
-import MovieMyList from "@/components/movies/MovieMyList/MovieMyList";
-import StoreProvider from "../StoreProvider";
 import { Suspense } from "react";
-import { Box, CircularProgress } from "@mui/material";
+import MovieMyList from "@/components/movies/MovieMyList/MovieMyList";
+import Loading from "@/components/common/Loading/Loading";
+import StoreProvider from "../StoreProvider";
 
 export default function MyList() {
-	// TODO: Mejorar
 	return (
-		<Suspense
-			fallback={
-				<Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-					<CircularProgress />
-				</Box>
-			}
-		>
-			<section>
+		<section>
+			<Suspense fallback={<Loading />}>
 				<StoreProvider>
 					<MovieMyList />
 				</StoreProvider>
-			</section>
-		</Suspense>
+			</Suspense>
+		</section>
 	);
 }
