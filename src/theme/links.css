@@ -1,29 +1,33 @@
 .link {
+	position: relative;
 	color: #fff;
 	text-decoration: none;
 	cursor: pointer;
-	transition: 0.3s background-color ease-in-out;
+	outline: none;
+	transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 
-	&.current-page {
-		/* TODO */
-		border-radius: 12px;
-		background-color: #9c27b0;
-		padding: 0.75rem 1.25rem;
-	}
-
-	&:not(.current-page)::before {
+	&::before {
 		content: "";
 		position: absolute;
 		width: 0;
-		height: 1px;
+		height: 2px;
 		background-color: currentColor;
-		top: calc(100% + 1px);
+		top: 100%;
 		left: 0;
-		transition: 0.3s width ease-in-out;
+		transition: width 0.3s ease-in-out;
+	}
+
+	&.current-page::before {
+		width: 100%;
 	}
 
 	&:hover::before,
 	&:focus::before {
 		width: 100%;
+	}
+
+	&:not(.current-page):hover,
+	&:not(.current-page):focus {
+		color: #d59edf;
 	}
 }
