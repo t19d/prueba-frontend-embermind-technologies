@@ -45,11 +45,7 @@ export default function MovieMyList() {
 					<Grid container spacing={3}>
 						{data.results.map((movie: MovieListItem) => (
 							<Grid item xs={12} sm={6} md={4} lg={3} key={movie.id}>
-								<MovieCard
-									title={movie.title}
-									posterUrl={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-									releaseDate={movie.release_date}
-								/>
+								<MovieCard movie={movie} />
 							</Grid>
 						))}
 					</Grid>

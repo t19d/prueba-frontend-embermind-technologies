@@ -15,6 +15,7 @@ export interface MovieListItem {
 	overview: string;
 	popularity: number;
 	poster_path: string;
+	rating?: number;
 	release_date: string;
 	title: string;
 	video: boolean;
