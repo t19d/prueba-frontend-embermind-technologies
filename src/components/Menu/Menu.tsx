@@ -15,10 +15,10 @@ const toolbarStyle = {
 
 export default function Menu() {
 	return (
-		<AppBar position="static" color="primary">
+		<AppBar position="static">
 			<Toolbar sx={toolbarStyle}>
 				<Typography variant="h6" component="h1">
-					Movie App
+					Movies &#127916;
 				</Typography>
 
 				<Suspense fallback={<SearchBarSkeleton />}>
