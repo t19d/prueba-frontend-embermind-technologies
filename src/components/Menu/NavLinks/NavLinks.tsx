@@ -1,5 +1,6 @@
 import { Box, List, ListItem, ListItemText } from "@mui/material";
 import LinkMenu from "./LinkMenu/LinkMenu";
+import { Suspense } from "react";
 
 export default function NavLinks() {
 	const links = [
@@ -12,7 +13,10 @@ export default function NavLinks() {
 			<List sx={{ display: "grid", gap: 1, gridTemplateColumns: "auto auto" }}>
 				{links.map((link, i) => (
 					<ListItem disablePadding key={i}>
-						<LinkMenu {...link} />
+						{/* TODO: Mejorar */}
+						<Suspense fallback={<div>Loading...</div>}>
+							<LinkMenu {...link} />
+						</Suspense>
 					</ListItem>
 				))}
 			</List>

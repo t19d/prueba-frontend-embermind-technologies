@@ -1,7 +1,9 @@
 import MovieList from "@/components/movies/MovieList/MovieList";
 import { fetchListMovies } from "@/features/movies/tmdbApi";
 import { PaginatedMoviesResponse } from "@/models/movie.model";
+import { Box, CircularProgress } from "@mui/material";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function Home({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
 	const query = (searchParams?.query as string) ?? "";
@@ -44,9 +46,18 @@ export default async function Home({ searchParams }: { searchParams: { [key: str
 		redirect(`/?${params.toString()}`);
 	}
 
+	// TODO: Mejorar
 	return (
-		<section>
-			<MovieList {...data} />
-		</section>
+		<Suspense
+			fallback={
+				<Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+					<CircularProgress />
+				</Box>
+			}
+		>
+			<section>
+				<MovieList data={data} />
+			</section>
+		</Suspense>
 	);
 }

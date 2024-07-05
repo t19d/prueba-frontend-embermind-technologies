@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import SearchBar from "./SearchBar/SearchBar";
 import NavLinks from "./NavLinks/NavLinks";
+import { Suspense } from "react";
 
 export default function Menu() {
 	return (
@@ -10,7 +11,10 @@ export default function Menu() {
 					Movie App
 				</Typography>
 
-				<SearchBar />
+				{/* TODO: Mejorar */}
+				<Suspense fallback={<div>Loading...</div>}>
+					<SearchBar />
+				</Suspense>
 
 				<NavLinks />
 			</Toolbar>
