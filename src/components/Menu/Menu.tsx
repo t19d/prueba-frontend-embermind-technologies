@@ -2,17 +2,17 @@ import { AppBar, Toolbar, Typography } from "@mui/material";
 import SearchBar from "./SearchBar/SearchBar";
 import NavLinks from "./NavLinks/NavLinks";
 import { Suspense } from "react";
+import SearchBarSkeleton from "./SearchBar/SearchBarSkeleton";
 
 export default function Menu() {
 	return (
 		<AppBar position="static" color="primary">
-			<Toolbar sx={{ display: "grid", gap: 2, gridTemplateColumns: "auto 1fr auto" }}>
+			<Toolbar sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
 				<Typography variant="h6" component="h1">
 					Movie App
 				</Typography>
 
-				{/* TODO: Mejorar */}
-				<Suspense fallback={<div>Loading...</div>}>
+				<Suspense fallback={<SearchBarSkeleton />}>
 					<SearchBar />
 				</Suspense>
 

@@ -1,13 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export default function SearchBar() {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
+	const isHomePage = pathname === "/";
+
 	const [query, setQuery] = useState<string>((searchParams.get("query") as string) ?? "");
 
 	// Resetear la query
@@ -38,9 +40,13 @@ export default function SearchBar() {
 		};
 	}, [query]);
 
+	// Mostrar componente solo en la home
+	if (!isHomePage) return null;
+
+	// TODO: Poner un max-width
 	return (
-		// TODO: Poner un max-width
 		<TextField
+			sx={{ flex: 1 }}
 			value={query}
 			onChange={(e) => setQuery(e.target.value)}
 			placeholder="Buscar películas..."
