@@ -1,3 +1,4 @@
+import { GuestSession } from "@/models/session.model";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface SessionState {
@@ -16,10 +17,10 @@ export const sessionSlice = createSlice({
 	name: "session",
 	initialState,
 	reducers: {
-		setGuestSession: (state, action: PayloadAction<{ success: boolean; guestSessionId: string; expiresAt: string }>) => {
+		setGuestSession: (state, action: PayloadAction<GuestSession>) => {
 			state.success = action.payload.success;
-			state.guestSessionId = action.payload.guestSessionId;
-			state.expiresAt = action.payload.expiresAt;
+			state.guestSessionId = action.payload.guest_session_id;
+			state.expiresAt = action.payload.expires_at;
 		},
 		clearGuestSession: (state) => {
 			state.success = false;

@@ -1,10 +1,11 @@
 import { UrlMoviesParams } from "@/models/filter.model";
 import { PaginatedMoviesResponse } from "@/models/movie.model";
+import { GuestSession } from "@/models/session.model";
 
 const API_URL = process.env.NEXT_PUBLIC_TMDB_API_URL;
 const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
-export async function fetchListMovies(opts: UrlMoviesParams) {
+export async function fetchListMovies(opts: UrlMoviesParams): Promise<PaginatedMoviesResponse> {
 	const url = opts.query ? getUrlListSearch(opts) : getUrlListPopular(opts);
 	const response = await fetch(url);
 
@@ -12,18 +13,18 @@ export async function fetchListMovies(opts: UrlMoviesParams) {
 	if (!response.ok) throw new Error("🩺 Failed to fetch popular movies");
 
 	// ✅
-	const data: PaginatedMoviesResponse = (await response.json()) as PaginatedMoviesResponse;
+	const data: PaginatedMoviesResponse = await response.json();
 	return data;
 }
 
-export async function createGuestSession() {
+export async function createGuestSession(): Promise<GuestSession> {
 	const response = await fetch(getUrlGestSession());
 
 	// ❌
 	if (!response.ok) throw new Error("🩺 Failed to create guest session");
 
 	// ✅
-	const data = await response.json();
+	const data: GuestSession = await response.json();
 	return data;
 }
 
