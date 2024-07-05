@@ -1,5 +1,5 @@
 import { UrlMoviesParams } from "@/models/filter.model";
-import { PaginatedMoviesResponse } from "@/models/movie.model";
+import { PaginatedMoviesResponse, RatingResponse } from "@/models/movie.model";
 import { GuestSession } from "@/models/session.model";
 
 const API_URL = process.env.NEXT_PUBLIC_TMDB_API_URL;
@@ -17,6 +17,38 @@ export async function fetchListMovies(opts: UrlMoviesParams): Promise<PaginatedM
 	return data;
 }
 
+export async function fetchGuestListMovies(guestSessionId: string, opts: UrlMoviesParams): Promise<PaginatedMoviesResponse> {
+	const url = `${API_URL}/guest_session/${guestSessionId}/rated/movies?api_key=${API_KEY}&language=es-ES&page=1`;
+	const response = await fetch(url);
+
+	// ❌ Puede no haber valorado ninguna y saltar como error
+	if (!response.ok) throw new Error("🩺 Failed to fetch guest movies");
+
+	// ✅
+	const data: PaginatedMoviesResponse = await response.json();
+	return data;
+}
+
+export async function addRating(rating: number, movieId: string, guestSessionId: string): Promise<RatingResponse> {
+	const options = {
+		method: "POST",
+		headers: {
+			accept: "application/json",
+			"Content-Type": "application/json;charset=utf-8",
+		},
+		body: `{"value":${rating}}`,
+	};
+	const url = getUrlRating(movieId, guestSessionId);
+	const response = await fetch(url, options);
+
+	// ❌
+	if (!response.ok) throw new Error("🩺 Failed to add rating");
+
+	// ✅
+	const data: RatingResponse = await response.json();
+	return data;
+}
+
 export async function createGuestSession(): Promise<GuestSession> {
 	const response = await fetch(getUrlGestSession());
 
@@ -29,6 +61,10 @@ export async function createGuestSession(): Promise<GuestSession> {
 }
 
 // #region utils URL MOVIES
+function getUrlRating(movieId: string, guestSessionId: string): string {
+	return `${API_URL}/movie/${movieId}/rating?guest_session_id=${guestSessionId}&api_key=${API_KEY}`;
+}
+
 function getUrlGestSession(): string {
 	return `${API_URL}/authentication/guest_session/new?api_key=${API_KEY}`;
 }
