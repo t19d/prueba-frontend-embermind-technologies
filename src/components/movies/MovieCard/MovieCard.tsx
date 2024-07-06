@@ -49,6 +49,24 @@ export default function MovieCard({ movie, refreshData }: MovieCardProps) {
 					<Typography variant="body2" color="text.secondary">
 						Fecha de estreno: {convertToLocalDateES(movie.release_date)}
 					</Typography>
+					{movie.rating && (
+						<Typography
+							variant="h5"
+							component="span"
+							sx={{
+								position: "absolute",
+								top: "0",
+								right: "0",
+								backgroundColor: "#1b1b1be6",
+								padding: "0.75rem",
+								borderBottomLeftRadius: "4px",
+								lineHeight: "1",
+								fontWeight: "bold",
+							}}
+						>
+							{movie.rating}
+						</Typography>
+					)}
 				</CardContent>
 			</Card>
 
