@@ -10,14 +10,15 @@ interface MovieRatingDialogProps {
 	movie: MovieListItem;
 	open: boolean;
 	onClose: () => void;
+	refreshData?: () => void;
 }
 
-export default function MovieRatingDialog({ movie, open, onClose }: MovieRatingDialogProps) {
+export default function MovieRatingDialog({ movie, open, onClose, refreshData }: MovieRatingDialogProps) {
 	const backdrop = getImageUrlOriginal(movie.backdrop_path);
 	const guestSession = useAppSelector((state) => state.session);
 	const dispatch = useAppDispatch();
 
-	const [rating, setRating] = useState<number>();
+	const [rating, setRating] = useState<number | undefined>(movie.rating);
 	const [error, setError] = useState<string>();
 	const [loading, setLoading] = useState<boolean>(false);
 
@@ -36,8 +37,26 @@ export default function MovieRatingDialog({ movie, open, onClose }: MovieRatingD
 		setLoading(true);
 
 		// ❌
-		if (!rating || rating > 10 || rating < 0) setRating(undefined);
-		if (!guestSession.guestSessionId) return;
+		if (!rating || rating > 10 || rating < 0) {
+			setRating(undefined);
+			setLoading(false);
+			return;
+		}
+		if (rating % 0.5 !== 0) {
+			setError("El valor tiene que ser múltiplo de 0,50.");
+			setLoading(false);
+			return;
+		}
+		if (rating === movie.rating) {
+			setLoading(false);
+			onClose();
+			return;
+		}
+		if (!guestSession.guestSessionId) {
+			setError("No se ha podido obtener la sesión de invitado. Inténtelo de nuevo.");
+			setLoading(false);
+			return;
+		}
 
 		let isExpired = true;
 		if (guestSession.expiresAt) isExpired = new Date(guestSession.expiresAt) < new Date();
@@ -45,9 +64,10 @@ export default function MovieRatingDialog({ movie, open, onClose }: MovieRatingD
 			try {
 				await addRating(rating ?? 0, `${movie.id}`, guestSession.guestSessionId);
 				onClose();
+				if (refreshData) refreshData();
 			} catch (error) {
 				console.error(error);
-				setError("Error al añadir la valoración");
+				setError("Error al calificar la película. Inténtelo de nuevo.");
 			}
 		}
 
@@ -63,17 +83,43 @@ export default function MovieRatingDialog({ movie, open, onClose }: MovieRatingD
 			<DialogTitle>{movie.title}</DialogTitle>
 			<DialogContent>
 				<CardMedia component="img" image={backdrop} alt={movie.title} />
-				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					Fecha de estreno: {movie.release_date}
-				</Typography>
 				<Typography variant="body1" sx={{ mt: 2 }}>
 					{movie.overview}
 				</Typography>
+
+				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+					ID: {movie.id}
+				</Typography>
+				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+					Fecha de estreno: {movie.release_date}
+				</Typography>
+
+				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+					Popularidad: {movie.popularity}
+				</Typography>
+				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+					Votos promedio: {movie.vote_average} ({movie.vote_count} votos)
+				</Typography>
+
+				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+					Título original: {movie.original_title} ({movie.original_language})
+				</Typography>
+				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+					Adulto: {movie.adult ? "Sí" : "No"}
+				</Typography>
+
+				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+					IDs de géneros: {movie.genre_ids.join(", ")}
+				</Typography>
+				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+					Video: {movie.video ? "Sí" : "No"}
+				</Typography>
+
 				{guestSession && (
 					<TextField
 						margin="dense"
 						id="rating"
-						label="Rate this movie"
+						label="Califica esta película"
 						type="number"
 						fullWidth
 						variant="standard"

@@ -8,11 +8,12 @@ import Loading from "@/components/common/Loading/Loading";
 
 interface MovieCardProps {
 	movie: MovieListItem;
+	refreshData?: () => void;
 }
 
 const MovieRatingDialog = dynamic(() => import("./MovieRatingDialog/MovieRatingDialog"));
 
-export default function MovieCard({ movie }: MovieCardProps) {
+export default function MovieCard({ movie, refreshData }: MovieCardProps) {
 	const posterUrl = getImageUrlW780(movie.poster_path);
 	const [open, setOpen] = useState(false);
 
@@ -40,7 +41,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
 			{open && (
 				<Suspense fallback={<Loading />}>
-					<MovieRatingDialog movie={movie} open={open} onClose={handleClose} />
+					<MovieRatingDialog movie={movie} open={open} onClose={handleClose} refreshData={refreshData} />
 				</Suspense>
 			)}
 		</>

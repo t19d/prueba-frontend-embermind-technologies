@@ -15,19 +15,9 @@ export default function MovieMyList() {
 	const dispatch = useAppDispatch();
 	const [data, setData] = useState<PaginatedMoviesResponse>();
 	const [loading, setLoading] = useState(false);
+	const [refresh, setRefresh] = useState<boolean>(false);
 
-	useEffect(() => {
-		const loadGuestSession = async (dispatch: any) => {
-			try {
-				await loadLocalStorageGuestSession(dispatch);
-			} catch (error: any) {
-				if (error.message) console.error(error.message);
-			}
-		};
-		loadGuestSession(dispatch);
-	}, [dispatch]);
-
-	useEffect(() => {
+	const getGuestMovies = () => {
 		setLoading(true);
 
 		if (!guestSession.guestSessionId) return;
@@ -47,7 +37,33 @@ export default function MovieMyList() {
 		}
 
 		setLoading(false);
+	};
+
+	const refreshData = () => {
+		setRefresh(true);
+	};
+
+	useEffect(() => {
+		const loadGuestSession = async (dispatch: any) => {
+			try {
+				await loadLocalStorageGuestSession(dispatch);
+			} catch (error: any) {
+				if (error.message) console.error(error.message);
+			}
+		};
+		loadGuestSession(dispatch);
+	}, [dispatch]);
+
+	useEffect(() => {
+		getGuestMovies();
 	}, [guestSession]);
+
+	useEffect(() => {
+		if (refresh) {
+			setRefresh(false);
+			getGuestMovies();
+		}
+	}, [refresh]);
 
 	return !data || !data.results || data.results.length < 1 ? (
 		loading ? (
@@ -60,7 +76,7 @@ export default function MovieMyList() {
 			<Grid container spacing={3}>
 				{data.results.map((movie: MovieListItem) => (
 					<Grid item xs={12} sm={6} md={4} lg={3} key={movie.id}>
-						<MovieCard movie={movie} />
+						<MovieCard movie={movie} refreshData={refreshData} />
 					</Grid>
 				))}
 			</Grid>
