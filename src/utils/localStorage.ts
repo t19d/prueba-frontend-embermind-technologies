@@ -25,7 +25,7 @@ export async function loadLocalStorageGuestSession(dispatch: AppDispatch) {
 		} catch (error) {
 			clearLocalStorageGuestSession();
 			dispatch(clearGuestSession());
-			console.error(error);
+			throw error;
 		}
 	}
 }

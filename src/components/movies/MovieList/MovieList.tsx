@@ -3,6 +3,7 @@ import MovieCard from "@/components/movies/MovieCard/MovieCard";
 import Pagination from "@/components/common/Pagination/Pagination";
 import { MovieListItem, PaginatedMoviesResponse } from "@/models/movie.model";
 import StoreProvider from "@/app/StoreProvider";
+import NoData from "@/components/common/NoData/NoData";
 
 interface MovieListProps {
 	data: PaginatedMoviesResponse;
@@ -11,7 +12,9 @@ interface MovieListProps {
 export default function MovieList({ data }: MovieListProps) {
 	const { results: movies, page, total_pages: totalPages } = data;
 
-	return (
+	return !data || !movies || movies.length < 1 ? (
+		<NoData />
+	) : (
 		<>
 			<Grid container spacing={4}>
 				{movies.map((movie: MovieListItem) => (

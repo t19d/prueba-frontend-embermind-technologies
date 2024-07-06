@@ -12,7 +12,7 @@ export default async function Home({ searchParams }: { searchParams: { [key: str
 	// Convertir a número
 	searchParamPage = Number(searchParamPage);
 
-	const getPopularMovies = async (searchParamPage: number, query: string, canTryAgain: boolean = true): Promise<PaginatedMoviesResponse> => {
+	const getPopularMovies = async (searchParamPage: number, query: string): Promise<PaginatedMoviesResponse> => {
 		let data: PaginatedMoviesResponse = {
 			results: [],
 			page: 1,
@@ -36,7 +36,7 @@ export default async function Home({ searchParams }: { searchParams: { [key: str
 	let data = await getPopularMovies(searchParamPage, query);
 
 	// Si no hay resultados, redirigir con la última página
-	if (!data.results || data.results.length === 0) {
+	if ((!data.results || data.results.length === 0) && data.page != data.total_pages) {
 		const newSearchParams: Record<string, string> = { page: `${data.total_pages}` };
 		if (query) newSearchParams.query = query;
 

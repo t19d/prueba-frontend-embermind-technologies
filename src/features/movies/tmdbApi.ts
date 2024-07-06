@@ -10,7 +10,7 @@ export async function fetchListMovies(opts: UrlMoviesParams): Promise<PaginatedM
 	const response = await fetch(url);
 
 	// ❌
-	if (!response.ok) throw new Error("🩺 Failed to fetch popular movies");
+	if (!response.ok) throw new Error(`ERROR ${response.status ?? 500} -  Error obteniendo las películas`);
 
 	// ✅
 	const data: PaginatedMoviesResponse = await response.json();
@@ -22,7 +22,7 @@ export async function fetchGuestListMovies(guestSessionId: string, opts: UrlMovi
 	const response = await fetch(url);
 
 	// ❌ Puede no haber valorado ninguna y saltar como error
-	if (!response.ok) throw new Error("🩺 Failed to fetch guest movies");
+	if (!response.ok) throw new Error(`ERROR ${response.status ?? 500} -  Error obteniendo las películas de la persona invitada`);
 
 	// ✅
 	const data: PaginatedMoviesResponse = await response.json();
@@ -42,7 +42,7 @@ export async function addRating(rating: number, movieId: string, guestSessionId:
 	const response = await fetch(url, options);
 
 	// ❌
-	if (!response.ok) throw new Error("🩺 Failed to add rating");
+	if (!response.ok) throw new Error(`ERROR ${response.status ?? 500} -  Error añadiendo una valoración`);
 
 	// ✅
 	const data: RatingResponse = await response.json();
@@ -53,7 +53,7 @@ export async function createGuestSession(): Promise<GuestSession> {
 	const response = await fetch(getUrlGestSession());
 
 	// ❌
-	if (!response.ok) throw new Error("🩺 Failed to create guest session");
+	if (!response.ok) throw new Error(`ERROR ${response.status ?? 500} -  Error creando la sesión para la persona invitada`);
 
 	// ✅
 	const data: GuestSession = await response.json();
