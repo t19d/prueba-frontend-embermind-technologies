@@ -18,3 +18,6 @@ Es una librería que ya he utilizado, es bastante popular y fácil de usar.
 ## Endpoints
 - En la descripción de la prueba estaba mal el de la lista de películas populares. Busqué en la documentación oficial y puse el correcta.
 - En la descripción de la prueba estaba mal el de crear una "guest session". Busqué en la documentación oficial y puse el correcta.
+
+## Componentes carga dinámica
+- El componente MovieRatingDialog se carga de esta manera para evitar múltiples llamadas de creación de usuario guest.
