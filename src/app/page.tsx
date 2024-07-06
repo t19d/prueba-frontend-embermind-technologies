@@ -2,7 +2,6 @@ import Loading from "@/components/common/Loading/Loading";
 import MovieList from "@/components/movies/MovieList/MovieList";
 import { fetchListMovies } from "@/features/movies/tmdbApi";
 import { PaginatedMoviesResponse } from "@/models/movie.model";
-import { Box, CircularProgress } from "@mui/material";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import MovieMyList from "@/components/movies/MovieMyList/MovieMyList";
 import Loading from "@/components/common/Loading/Loading";
-import StoreProvider from "../StoreProvider";
+import StoreProvider from "@/app/StoreProvider";
 
 export default function MyList() {
 	return (
