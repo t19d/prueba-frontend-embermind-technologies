@@ -5,6 +5,7 @@ import { addRating } from "@/features/movies/tmdbApi";
 import { MovieListItem } from "@/models/movie.model";
 import { getImageUrlOriginal } from "@/utils/movies";
 import { loadLocalStorageGuestSession } from "@/utils/localStorage";
+import { convertToLocalDateES } from "@/utils/dates";
 
 interface MovieRatingDialogProps {
 	movie: MovieListItem;
@@ -91,7 +92,7 @@ export default function MovieRatingDialog({ movie, open, onClose, refreshData }:
 					ID: {movie.id}
 				</Typography>
 				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					Fecha de estreno: {movie.release_date}
+					Fecha de estreno: {convertToLocalDateES(movie.release_date)}
 				</Typography>
 
 				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>

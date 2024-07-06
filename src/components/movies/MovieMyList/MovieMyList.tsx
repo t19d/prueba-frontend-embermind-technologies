@@ -73,9 +73,9 @@ export default function MovieMyList() {
 		)
 	) : (
 		<>
-			<Grid container spacing={3}>
+			<Grid container spacing={4}>
 				{data.results.map((movie: MovieListItem) => (
-					<Grid item xs={12} sm={6} md={4} lg={3} key={movie.id}>
+					<Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
 						<MovieCard movie={movie} refreshData={refreshData} />
 					</Grid>
 				))}

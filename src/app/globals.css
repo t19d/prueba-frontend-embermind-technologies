@@ -1,14 +1,20 @@
+:root {
+	--global-gap-backwards: 2vh;
+	--global-gap: 2dvh;
+}
+
 body {
 	display: grid;
 	grid-template-rows: auto 1fr;
 	justify-items: center;
-	gap: 1vh;
-	gap: 1dvh;
+	gap: var(--global-gap-backwards);
+	gap: var(--global-gap);
 	min-height: 100vh;
 	min-height: 100dvh;
 }
 
 body > main {
+	width: 100%;
 	max-width: 1280px;
 	padding-inline: 16px;
 
@@ -19,4 +25,8 @@ body > main {
 
 body > main > section {
 	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: var(--global-gap-backwards);
+	gap: var(--global-gap);
 }

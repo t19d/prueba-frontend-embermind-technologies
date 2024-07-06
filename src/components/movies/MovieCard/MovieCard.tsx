@@ -5,6 +5,7 @@ import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { Suspense, useState } from "react";
 import dynamic from "next/dynamic";
 import Loading from "@/components/common/Loading/Loading";
+import { convertToLocalDateES } from "@/utils/dates";
 
 interface MovieCardProps {
 	movie: MovieListItem;
@@ -12,6 +13,19 @@ interface MovieCardProps {
 }
 
 const MovieRatingDialog = dynamic(() => import("./MovieRatingDialog/MovieRatingDialog"));
+
+const cardStyle = {
+	cursor: "pointer",
+	position: "relative",
+	aspectRatio: "2/3",
+	backgroundSize: "cover",
+	backgroundPosition: "center",
+	backgroundRepeat: "no-repeat",
+	display: "flex",
+	alignItems: "flex-end",
+	justifyContent: "center",
+	overflow: "hidden",
+};
 
 export default function MovieCard({ movie, refreshData }: MovieCardProps) {
 	const posterUrl = getImageUrlW780(movie.poster_path);
@@ -27,14 +41,13 @@ export default function MovieCard({ movie, refreshData }: MovieCardProps) {
 
 	return (
 		<>
-			<Card onClick={handleClickOpen} sx={{ cursor: "pointer" }}>
-				<CardMedia component="img" image={posterUrl} alt={movie.title} />
-				<CardContent>
+			<Card onClick={handleClickOpen} sx={{ ...cardStyle, backgroundImage: `url(${posterUrl})` }}>
+				<CardContent sx={{ width: "100%", backgroundColor: "#1b1b1be6" }}>
 					<Typography gutterBottom variant="h6" component="h3">
 						{movie.title}
 					</Typography>
 					<Typography variant="body2" color="text.secondary">
-						Fecha de estreno: {movie.release_date}
+						Fecha de estreno: {convertToLocalDateES(movie.release_date)}
 					</Typography>
 				</CardContent>
 			</Card>
