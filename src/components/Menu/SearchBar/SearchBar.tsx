@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -28,6 +28,8 @@ export default function SearchBar() {
 				// Poner el valor del input en el query params
 				params.set("query", query);
 			}
+			// Resetear la página a la 1
+			params.set("page", "1");
 			const newSearchParams = params.toString();
 
 			// Actualizar la URL con el nuevo tipo
@@ -43,14 +45,12 @@ export default function SearchBar() {
 	// Mostrar componente solo en la home
 	if (!isHomePage) return null;
 
-	// TODO: Poner un max-width
 	return (
 		<TextField
 			sx={{ flex: 1 }}
 			value={query}
 			onChange={(e) => setQuery(e.target.value)}
 			placeholder="Buscar películas..."
-			variant="outlined"
 			size="small"
 			InputProps={{
 				endAdornment: (
