@@ -10,7 +10,11 @@ import Pagination from "@/components/common/Pagination/Pagination";
 import Loading from "@/components/common/Loading/Loading";
 import NoData from "@/components/common/NoData/NoData";
 
-export default function MovieMyList() {
+interface MovieMyListProps {
+	page: number;
+}
+
+export default function MovieMyList({ page }: MovieMyListProps) {
 	const guestSession = useAppSelector((state) => state.session);
 	const dispatch = useAppDispatch();
 	const [data, setData] = useState<PaginatedMoviesResponse>();
@@ -27,7 +31,7 @@ export default function MovieMyList() {
 		if (!isExpired) {
 			const fetchMovies = async () => {
 				try {
-					const data = await fetchGuestListMovies(guestSession.guestSessionId ?? "", {});
+					const data = await fetchGuestListMovies(guestSession.guestSessionId ?? "", { page });
 					setData(data);
 				} catch (error: any) {
 					if (error.message) console.error(error.message);
@@ -56,7 +60,7 @@ export default function MovieMyList() {
 
 	useEffect(() => {
 		getGuestMovies();
-	}, [guestSession]);
+	}, [guestSession, page]);
 
 	useEffect(() => {
 		if (refresh) {
@@ -65,12 +69,10 @@ export default function MovieMyList() {
 		}
 	}, [refresh]);
 
-	return !data || !data.results || data.results.length < 1 ? (
-		loading ? (
-			<Loading />
-		) : (
-			<NoData />
-		)
+	return loading ? (
+		<Loading />
+	) : !data || !data.results || data.results.length < 1 ? (
+		<NoData />
 	) : (
 		<>
 			<Grid container spacing={4}>

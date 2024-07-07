@@ -18,7 +18,7 @@ export async function fetchListMovies(opts: UrlMoviesParams): Promise<PaginatedM
 }
 
 export async function fetchGuestListMovies(guestSessionId: string, opts: UrlMoviesParams): Promise<PaginatedMoviesResponse> {
-	const url = `${API_URL}/guest_session/${guestSessionId}/rated/movies?api_key=${API_KEY}&language=es-ES&page=1`;
+	const url = getUrlGuestListMovies(guestSessionId, opts);
 	const response = await fetch(url);
 
 	// ❌ Puede no haber valorado ninguna y saltar como error
@@ -77,8 +77,15 @@ function getUrlListSearch(opts: UrlMoviesParams): string {
 	return getUrlWithParams(`${API_URL}/search/movie`, opts);
 }
 
+function getUrlGuestListMovies(guestSessionId: string, opts: UrlMoviesParams): string {
+	return getUrlWithParams(`${API_URL}/guest_session/${guestSessionId}/rated/movies`, opts);
+}
+
 function getUrlWithParams(url: string, { query, page = 1, language = "es-ES", region = "ES" }: UrlMoviesParams): string {
-	let paramsString = `?api_key=${API_KEY}&language=${language}&page=${page}&region=${region}`;
+	let paramsString = `?api_key=${API_KEY}`;
+	if (language) paramsString += `&language=${language}`;
+	if (page) paramsString += `&page=${page}`;
+	if (region) paramsString += `&region=${region}`;
 	if (query) paramsString += `&query=${query}`;
 	return url + paramsString;
 }
