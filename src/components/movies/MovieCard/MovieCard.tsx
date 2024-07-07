@@ -41,7 +41,7 @@ export default function MovieCard({ movie, refreshData }: MovieCardProps) {
 
 	return (
 		<>
-			<Card onClick={handleClickOpen} sx={{ ...cardStyle, backgroundImage: `url(${posterUrl})` }}>
+			<Card role="button" onClick={handleClickOpen} sx={{ ...cardStyle, backgroundImage: `url(${posterUrl})` }}>
 				<CardContent sx={{ width: "100%", backgroundColor: "#1b1b1be6" }}>
 					<Typography gutterBottom variant="h6" component="h3">
 						{movie.title}
