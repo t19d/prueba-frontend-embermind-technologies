@@ -1,9 +1,11 @@
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { AppBar, Toolbar, Typography } from "@mui/material";
-import SearchBar from "./SearchBar/SearchBar";
 import NavLinks from "./NavLinks/NavLinks";
 import SearchBarSkeleton from "./SearchBar/SearchBarSkeleton";
 import "./Menu.css";
+
+const SearchBar = dynamic(() => import("./SearchBar/SearchBar"));
 
 const toolbarStyle = {
 	display: "flex",
