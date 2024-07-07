@@ -10,7 +10,8 @@ export default function SearchBar() {
 	const searchParams = useSearchParams();
 	const isHomePage = pathname === "/";
 
-	const [query, setQuery] = useState<string>((searchParams.get("query") as string) ?? "");
+	const initialQuery = (searchParams.get("query") as string) ?? "";
+	const [query, setQuery] = useState<string>(initialQuery);
 
 	// Resetear la query
 	const handleClear = () => {
@@ -28,8 +29,12 @@ export default function SearchBar() {
 				// Poner el valor del input en el query params
 				params.set("query", query);
 			}
-			// Resetear la página a la 1
-			params.set("page", "1");
+
+			if (query !== initialQuery) {
+				// Resetear la página a la 1
+				params.set("page", "1");
+			}
+
 			const newSearchParams = params.toString();
 
 			// Actualizar la URL con el nuevo tipo
