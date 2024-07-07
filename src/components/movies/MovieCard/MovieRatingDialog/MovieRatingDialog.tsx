@@ -1,4 +1,4 @@
-import { Button, CardMedia, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
+import { Button, CardMedia, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addRating } from "@/features/movies/tmdbApi";
@@ -39,6 +39,7 @@ export default function MovieRatingDialog({ movie, open, onClose, refreshData }:
 
 		// ❌
 		if (!rating || rating > 10 || rating < 0) {
+			setError(`El valor de la calificación debe estar entre 0 y 10. Valor actual: ${rating}.`);
 			setRating(undefined);
 			setLoading(false);
 			return;
@@ -76,6 +77,7 @@ export default function MovieRatingDialog({ movie, open, onClose, refreshData }:
 	};
 
 	const handleRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault();
 		setRating(Number(event.target.value));
 	};
 
@@ -88,57 +90,83 @@ export default function MovieRatingDialog({ movie, open, onClose, refreshData }:
 					{movie.overview}
 				</Typography>
 
-				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					ID: {movie.id}
-				</Typography>
-				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					Fecha de estreno: {convertToLocalDateES(movie.release_date)}
-				</Typography>
-
-				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					Popularidad: {movie.popularity}
-				</Typography>
-				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					Votos promedio: {movie.vote_average} ({movie.vote_count} votos)
-				</Typography>
-
-				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					Título original: {movie.original_title} ({movie.original_language})
-				</Typography>
-				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					Adulto: {movie.adult ? "Sí" : "No"}
-				</Typography>
-
-				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					IDs de géneros: {movie.genre_ids.join(", ")}
-				</Typography>
-				<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-					Video: {movie.video ? "Sí" : "No"}
-				</Typography>
+				<Grid container>
+					<Grid item xs={12} sm={6}>
+						<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+							Título original: {movie.original_title} ({movie.original_language})
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+							ID: {movie.id}
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+							Fecha de estreno: {convertToLocalDateES(movie.release_date)}
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+							Popularidad: {movie.popularity}
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+							Votos promedio: {movie.vote_average} ({movie.vote_count} votos)
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+							Para adultos: {movie.adult ? "Sí" : "No"}
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+							IDs de géneros: {movie.genre_ids.join(", ")}
+						</Typography>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+							Video: {movie.video ? "Sí" : "No"}
+						</Typography>
+					</Grid>
+				</Grid>
 
 				{guestSession && (
 					<TextField
+						sx={{ mt: 4 }}
 						margin="dense"
 						id="rating"
 						label="Califica esta película"
 						type="number"
 						fullWidth
-						variant="standard"
+						variant="filled"
 						value={!rating ? "" : rating}
 						onChange={handleRatingChange}
+						InputProps={{
+							inputProps: {
+								min: 0,
+								max: 10,
+								step: 0.5,
+							},
+						}}
+						onKeyUp={(event) => {
+							if (event.key == "Enter") {
+								event.preventDefault();
+								handleSubmit();
+							}
+						}}
+						helperText={error}
+						error={!!error}
 					/>
-				)}
-				{error && (
-					<Typography variant="body2" color="error" sx={{ mt: 2 }}>
-						{error}
-					</Typography>
 				)}
 			</DialogContent>
 			{guestSession && (
 				<DialogActions>
-					<Button onClick={onClose}>Cancel</Button>
+					<Button onClick={onClose}>Cancelar</Button>
 					<Button onClick={handleSubmit} disabled={loading}>
-						{loading ? <CircularProgress /> : "Submit"}
+						{loading ? <CircularProgress /> : "Enviar"}
 					</Button>
 				</DialogActions>
 			)}
