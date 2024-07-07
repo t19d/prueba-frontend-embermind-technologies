@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography } from "@mui/material";
 import SearchBar from "./SearchBar/SearchBar";
 import NavLinks from "./NavLinks/NavLinks";
 import SearchBarSkeleton from "./SearchBar/SearchBarSkeleton";
+import "./Menu.css";
 
 const toolbarStyle = {
 	display: "flex",
@@ -15,9 +16,9 @@ const toolbarStyle = {
 
 export default function Menu() {
 	return (
-		<AppBar position="static" sx={{ position: "sticky", top: 0, zIndex: 1 }}>
+		<AppBar position="static" sx={{ position: "sticky", top: 0, zIndex: 1 }} className="appbar">
 			<Toolbar sx={toolbarStyle}>
-				<Typography variant="h6" component="h1">
+				<Typography variant="h6" component="h1" className="title">
 					Movies &#127916;
 				</Typography>
 
