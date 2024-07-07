@@ -2,6 +2,10 @@
 
 Este proyecto es una mini webapp desarrollada como parte de una prueba técnica para la posición de Frontend Developer en Embermind Technologies. La aplicación muestra un listado de películas populares, permite buscar películas y valorar las películas seleccionadas. Utiliza TheMovieDB API para obtener los datos de las películas.
 
+## Despliegue
+
+La aplicación está desplegada en Vercel y se puede acceder a través de la siguiente URL: [prueba-frontend-embermind-technologies.vercel.app](https://prueba-frontend-embermind-technologies.vercel.app/)
+
 ## Tecnologías Utilizadas
 
 -   **React 18**: Para la construcción de la interfaz de usuario.
@@ -69,75 +73,75 @@ import { convertToLocalDateES } from "@/utils/dates";
 import { MovieListItem } from "@/models/movie.model";
 
 interface MovieCardProps {
-    movie: MovieListItem;
-    refreshData?: () => void;
+	movie: MovieListItem;
+	refreshData?: () => void;
 }
 
 const MovieRatingDialog = dynamic(() => import("./MovieRatingDialog/MovieRatingDialog"));
 
 const cardStyle = {
-    cursor: "pointer",
-    position: "relative",
-    aspectRatio: "2/3",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "center",
-    overflow: "hidden",
+	cursor: "pointer",
+	position: "relative",
+	aspectRatio: "2/3",
+	backgroundSize: "cover",
+	backgroundPosition: "center",
+	backgroundRepeat: "no-repeat",
+	display: "flex",
+	alignItems: "flex-end",
+	justifyContent: "center",
+	overflow: "hidden",
 };
 
 export default function MovieCard({ movie, refreshData }: MovieCardProps) {
-    const posterUrl = getImageUrlW780(movie.poster_path);
-    const [open, setOpen] = useState(false);
+	const posterUrl = getImageUrlW780(movie.poster_path);
+	const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+	const handleClose = () => {
+		setOpen(false);
+	};
 
-    return (
-        <>
-            <Card role="button" onClick={handleClickOpen} sx={{ ...cardStyle, backgroundImage: `url(${posterUrl})` }}>
-                <CardContent sx={{ width: "100%", backgroundColor: "#1b1b1be6" }}>
-                    <Typography gutterBottom variant="h6" component="h3">
-                        {movie.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Fecha de estreno: {convertToLocalDateES(movie.release_date)}
-                    </Typography>
-                    {movie.rating && (
-                        <Typography
-                            variant="h5"
-                            component="span"
-                            sx={{
-                                position: "absolute",
-                                top: "0",
-                                right: "0",
-                                backgroundColor: "#1b1b1be6",
-                                padding: "0.75rem",
-                                borderBottomLeftRadius: "4px",
-                                lineHeight: "1",
-                                fontWeight: "bold",
-                            }}
-                        >
-                            {movie.rating}
-                        </Typography>
-                    )}
-                </CardContent>
-            </Card>
+	return (
+		<>
+			<Card role="button" onClick={handleClickOpen} sx={{ ...cardStyle, backgroundImage: `url(${posterUrl})` }}>
+				<CardContent sx={{ width: "100%", backgroundColor: "#1b1b1be6" }}>
+					<Typography gutterBottom variant="h6" component="h3">
+						{movie.title}
+					</Typography>
+					<Typography variant="body2" color="text.secondary">
+						Fecha de estreno: {convertToLocalDateES(movie.release_date)}
+					</Typography>
+					{movie.rating && (
+						<Typography
+							variant="h5"
+							component="span"
+							sx={{
+								position: "absolute",
+								top: "0",
+								right: "0",
+								backgroundColor: "#1b1b1be6",
+								padding: "0.75rem",
+								borderBottomLeftRadius: "4px",
+								lineHeight: "1",
+								fontWeight: "bold",
+							}}
+						>
+							{movie.rating}
+						</Typography>
+					)}
+				</CardContent>
+			</Card>
 
-            {open && (
-                <Suspense fallback={<Loading />}>
-                    <MovieRatingDialog movie={movie} open={open} onClose={handleClose} refreshData={refreshData} />
-                </Suspense>
-            )}
-        </>
-    );
+			{open && (
+				<Suspense fallback={<Loading />}>
+					<MovieRatingDialog movie={movie} open={open} onClose={handleClose} refreshData={refreshData} />
+				</Suspense>
+			)}
+		</>
+	);
 }
 ```
 
@@ -240,7 +244,7 @@ describe("Menu", () => {
 		expect(miListaElement).toHaveAttribute("href", "/mylist");
 	});
 });
-````
+```
 
 ## Instalación y Ejecución
 
@@ -273,11 +277,19 @@ npm run dev
 ## Mejoras y comentarios
 
 1. Explicación de la Lógica en home y mylist:
+
     > En la página home, la lógica está implementada de una manera, mientras que en mylist está implementada de otra. Esto se debe a que home utiliza Redux (solo para el manejo del estado de las cards) y no quería que toda la página fuera client-side, mientras que mylist utiliza server-side rendering para manejar la lógica.
+
 2. Bug al Cambiar entre inicio y mi lista:
+
     > Actualmente, hay un bug que ocurre al cambiar entre inicio y mi lista. El SearchBar no resetea el texto de búsqueda, lo cual puede confundir al usuario. Esta es una mejora pendiente por implementar para asegurar una mejor experiencia de usuario.
-3. Endpoints
+
+3. Endpoints:
 
     > En la descripción de la prueba estaba mal el endpoint para la lista de películas populares. Busqué en la documentación oficial y puse el correcto.
 
     > En la descripción de la prueba estaba mal el endpoint para crear una "guest session". Busqué en la documentación oficial y puse el correcto.
+
+4. Fallo a partir de la página 501 (inclusive):
+
+    > En la paginación devuelve que hay un total de 45003 páginas pero, al intentar acceder de la número 501 (inclusive) en adelante, falla la API.
