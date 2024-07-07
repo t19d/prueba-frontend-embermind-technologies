@@ -1,7 +1,7 @@
+import { Suspense } from "react";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import SearchBar from "./SearchBar/SearchBar";
 import NavLinks from "./NavLinks/NavLinks";
-import { Suspense } from "react";
 import SearchBarSkeleton from "./SearchBar/SearchBarSkeleton";
 
 const toolbarStyle = {
@@ -15,7 +15,7 @@ const toolbarStyle = {
 
 export default function Menu() {
 	return (
-		<AppBar position="static">
+		<AppBar position="static" sx={{ position: "sticky", top: 0, zIndex: 1 }}>
 			<Toolbar sx={toolbarStyle}>
 				<Typography variant="h6" component="h1">
 					Movies &#127916;
