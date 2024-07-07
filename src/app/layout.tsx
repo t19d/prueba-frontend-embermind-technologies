@@ -19,16 +19,14 @@ export default function RootLayout({
 	return (
 		<html lang="es">
 			<body>
-				<Menu />
-				<main>
-					{/* enableCssLayer: Is overridden by anonymous layer styles when using Material UI with CSS Modules, Tailwind CSS, or even plain CSS without using @layer. */}
-					<AppRouterCacheProvider options={{ enableCssLayer: true }}>
-						<ThemeProvider theme={theme}>
-							<CssBaseline />
-							{children}
-						</ThemeProvider>
-					</AppRouterCacheProvider>
-				</main>
+				{/* enableCssLayer: Is overridden by anonymous layer styles when using Material UI with CSS Modules, Tailwind CSS, or even plain CSS without using @layer. */}
+				<AppRouterCacheProvider options={{ enableCssLayer: true }}>
+					<ThemeProvider theme={theme}>
+						<CssBaseline />
+						<Menu />
+						<main>{children}</main>
+					</ThemeProvider>
+				</AppRouterCacheProvider>
 			</body>
 		</html>
 	);

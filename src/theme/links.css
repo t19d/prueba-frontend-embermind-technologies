@@ -1,6 +1,8 @@
+@import url("./colors.css");
+
 .link {
 	position: relative;
-	color: #fff;
+	color: var(--amber-50);
 	text-decoration: none;
 	cursor: pointer;
 	outline: none;
@@ -17,8 +19,11 @@
 		transition: width 0.3s ease-in-out;
 	}
 
-	&.current-page::before {
-		width: 100%;
+	&.current-page {
+		color: var(--amber-400);
+		&::before {
+			width: 100%;
+		}
 	}
 
 	&:hover::before,
@@ -28,6 +33,6 @@
 
 	&:not(.current-page):hover,
 	&:not(.current-page):focus {
-		color: #d59edf;
+		color: var(--amber-200);
 	}
 }
