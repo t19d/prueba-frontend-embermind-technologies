@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import Menu from "@/components/Menu/Menu";
 
+// Mock del componente SearchBar
 jest.mock(
 	"@/components/Menu/SearchBar/SearchBar",
 	() =>
@@ -28,6 +29,7 @@ jest.mock(
 		}
 );
 
+// Mock del componente NavLinks
 jest.mock(
 	"@/components/Menu/NavLinks/NavLinks",
 	() =>
@@ -79,7 +81,9 @@ describe("Menu", () => {
 			render(<Menu />);
 		});
 
+		// Busca el elemento que contiene el texto "Inicio" y verifica sus clases utilizando closest()
 		const inicioElement = screen.getByText("Inicio").closest("div.link.current-page");
+		// Asegura que el elemento encontrado esté presente en el DOM
 		expect(inicioElement).toBeInTheDocument();
 	});
 
@@ -88,7 +92,9 @@ describe("Menu", () => {
 			render(<Menu />);
 		});
 
+		// Busca el elemento que contiene el texto "Mi lista" y verifica que sea un <a> con la clase "link"
 		const miListaElement = screen.getByText("Mi lista").closest("a.link");
+		// Asegura que el elemento encontrado esté presente en el DOM y tenga el atributo href='/mylist'
 		expect(miListaElement).toBeInTheDocument();
 		expect(miListaElement).toHaveAttribute("href", "/mylist");
 	});
