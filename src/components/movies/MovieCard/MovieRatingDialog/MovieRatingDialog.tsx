@@ -24,14 +24,18 @@ export default function MovieRatingDialog({ movie, open, onClose, refreshData }:
 	const [loading, setLoading] = useState<boolean>(false);
 
 	useEffect(() => {
-		const loadGuestSession = async (dispatch: any) => {
-			try {
-				await loadLocalStorageGuestSession(dispatch);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-		loadGuestSession(dispatch);
+		let isExpired = true;
+		if (guestSession.expiresAt) isExpired = new Date(guestSession.expiresAt) < new Date();
+		if (!guestSession || !guestSession.guestSessionId || !guestSession.success || isExpired) {
+			const loadGuestSession = async (dispatch: any) => {
+				try {
+					await loadLocalStorageGuestSession(dispatch);
+				} catch (error) {
+					console.error(error);
+				}
+			};
+			loadGuestSession(dispatch);
+		}
 	}, [dispatch]);
 
 	const handleSubmit = async () => {

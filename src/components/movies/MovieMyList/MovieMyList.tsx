@@ -48,14 +48,18 @@ export default function MovieMyList({ page }: MovieMyListProps) {
 	};
 
 	useEffect(() => {
-		const loadGuestSession = async (dispatch: any) => {
-			try {
-				await loadLocalStorageGuestSession(dispatch);
-			} catch (error: any) {
-				if (error.message) console.error(error.message);
-			}
-		};
-		loadGuestSession(dispatch);
+		let isExpired = true;
+		if (guestSession.expiresAt) isExpired = new Date(guestSession.expiresAt) < new Date();
+		if (!guestSession || !guestSession.guestSessionId || !guestSession.success || isExpired) {
+			const loadGuestSession = async (dispatch: any) => {
+				try {
+					await loadLocalStorageGuestSession(dispatch);
+				} catch (error: any) {
+					if (error.message) console.error(error.message);
+				}
+			};
+			loadGuestSession(dispatch);
+		}
 	}, [dispatch]);
 
 	useEffect(() => {
