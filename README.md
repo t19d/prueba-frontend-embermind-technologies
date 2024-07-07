@@ -59,7 +59,7 @@ Utilicé una estructura donde los directorios están fuera de `/app` por dos mot
 -   **Implementación**: Usé `dynamic` de Next.js para cargar componentes de manera dinámica y `Suspense` para manejar la carga de componentes. Esto permite que solo se carguen los componentes necesarios cuando se requieren, reduciendo el tiempo de carga inicial de la aplicación.
 -   **Ejemplo de Implementación**: Lo utilicé en dos componentes porque eran los que más sentido tenían para mí. Por ejemplo, en el siguiente ejemplo lo utilizo para el Dialog de valorar películas por 2 motivos. El primero, no tiene sentido montar el componente si no se va abrir. El segundo, evitar generar el guestSession si no es necesario (ya que el componente lo genera si no existe).
 
-````javascript
+```javascript
 import dynamic from "next/dynamic";
 import { Suspense, useState } from "react";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
