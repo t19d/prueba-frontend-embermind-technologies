@@ -12,20 +12,23 @@ interface MovieListProps {
 export default function MovieList({ data }: MovieListProps) {
 	const { results: movies, page, total_pages: totalPages } = data;
 
-	return !data || !movies || movies.length < 1 ? (
-		<NoData />
-	) : (
+	return (
 		<>
-			<Grid container spacing={4}>
-				{movies.map((movie: MovieListItem) => (
-					<Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
-						<StoreProvider>
-							<MovieCard movie={movie} />
-						</StoreProvider>
-					</Grid>
-				))}
-			</Grid>
-			<Pagination currentPage={page} totalPages={totalPages} />
+			{!data || !movies || movies.length < 1 ? (
+				<NoData />
+			) : (
+				<Grid container spacing={4}>
+					{movies.map((movie: MovieListItem) => (
+						<Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
+							<StoreProvider>
+								<MovieCard movie={movie} />
+							</StoreProvider>
+						</Grid>
+					))}
+				</Grid>
+			)}
+
+			{page && totalPages && <Pagination currentPage={page} totalPages={totalPages} />}
 		</>
 	);
 }
