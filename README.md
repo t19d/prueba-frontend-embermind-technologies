@@ -293,3 +293,7 @@ npm run dev
 4. Fallo a partir de la página 501 (inclusive):
 
     > En la paginación devuelve que hay un total de 45003 páginas pero, al intentar acceder de la número 501 (inclusive) en adelante, falla la API.
+
+5. No exponer la API Key
+
+	> Cuando se hacen algunas peticiones (por ejemplo, en mylist) se puede ver la API Key en la petición.
