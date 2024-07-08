@@ -18,7 +18,7 @@ La aplicación está desplegada en Vercel y se puede acceder a través de la sig
 
 ## Estructura del Proyecto
 
--   **components**: Contiene las rutas de la aplicación.
+-   **app**: Contiene las rutas de la aplicación.
 -   **components**: Contiene los componentes reutilizables de la aplicación.
     -   **common**: Componentes que se pueden utilizar en varios sitios y que no pertenecen a un tipo en concreto.
     -   **Menu**: Componente que contiene la barra de navegación y la barra de búsqueda.
